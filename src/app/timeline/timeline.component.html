@@ -1,0 +1,50 @@
+<div class="timeline-container">
+  <div class="event-list">
+    <table mat-table [dataSource]="events">
+      <ng-container matColumnDef="date">
+        <th mat-header-cell *matHeaderCellDef> Date </th>
+        <td mat-cell *matCellDef="let event"> {{event.date | date:'yyyy-MM-dd HH:mm'}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="person">
+        <th mat-header-cell *matHeaderCellDef> Person </th>
+        <td mat-cell *matCellDef="let event"> {{event.person}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="description">
+        <th mat-header-cell *matHeaderCellDef> Description </th>
+        <td mat-cell *matCellDef="let event"> {{event.description}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="actions">
+        <th mat-header-cell *matHeaderCellDef> Actions </th>
+        <td mat-cell *matCellDef="let event">
+          <button mat-icon-button color="warn" (click)="deleteEvent(event)">
+            <mat-icon>delete</mat-icon>
+          </button>
+        </td>
+      </ng-container>
+
+      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+    </table>
+
+    <button mat-raised-button color="primary" (click)="openDialog()">Add Event</button>
+  </div>
+
+  <div class="timeline">
+    <h2>LINEA DE TIEMPO</h2>
+    <div class="timeline-scroll">
+      <div #timelineContent class="timeline-content">
+        <div class="timeline-line"></div>
+        <div *ngFor="let event of events" class="timeline-event" [style.left]="getEventPosition(event)">
+          <div class="event-dot"></div>
+          <div class="event-info">
+            <p>{{event.date | date:'HH:mm'}}</p>
+            <p>{{event.description}}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
